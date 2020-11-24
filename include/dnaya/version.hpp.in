@@ -1,0 +1,15 @@
+// Copyright (c) 2020 Filipe Verri <filipeverri@gmail.com>
+
+#ifndef DNAYA_VERSION_H
+/// \exclude
+#define DNAYA_VERSION_H
+
+namespace dnaya::version {
+
+constexpr auto major = @DNAYA_VERSION_MAJOR@;
+constexpr auto minor = @DNAYA_VERSION_MINOR@;
+constexpr auto patch = @DNAYA_VERSION_PATCH@;
+
+} // namespace jules
+
+#endif // DNAYA_VERSION_H

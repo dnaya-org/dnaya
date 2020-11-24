@@ -1,0 +1,17 @@
+add_executable(dummy dummy.cpp)
+target_link_libraries(dummy PRIVATE dnaya)
+
+target_compile_options(dummy PRIVATE "$<$<CONFIG:DEBUG>:-O0>")
+target_compile_options(dummy PRIVATE "$<$<CONFIG:DEBUG>:-fno-omit-frame-pointer>")
+target_compile_options(dummy PRIVATE "$<$<CONFIG:DEBUG>:-fsanitize=address,leak,undefined>")
+set_target_properties(dummy PROPERTIES LINK_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} -fsanitize=address,leak,undefined -fuse-ld=gold")
+
+if(MSVC)
+  if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+    string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+  else()
+    target_compile_options(dummy PRIVATE "/W4")
+  endif()
+elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+  target_compile_options(dummy PRIVATE -Wall -Wextra -Werror -pedantic)
+endif()
